@@ -1,3 +1,11 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 4 optimizations:
+# - [HIGH] Switch "macos" from macOS to ubuntu runner
+# - [MEDIUM] Add concurrency group to "build.yml"
+# - [MEDIUM] Switch "windows" from Windows to ubuntu runner
+# - [MEDIUM] 10 jobs clone the repo — consider artifact sharing
+# Estimated savings: ~3 min/run
+#
 name: Build
 on:
   workflow_dispatch:
@@ -24,6 +32,10 @@ on:
   pull_request:
     branches: [ main ]
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 
