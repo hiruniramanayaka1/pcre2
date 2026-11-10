@@ -41,6 +41,12 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name != 'workflow_dispatch' || (inputs.job_id == 'all' || inputs.job_id == 'linux')
     steps:
+      - name: Cache APT package archives
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/apt/archives
+          key: ${{ runner.os }}-apt-deps-v1
+
       - name: Setup
         run: |
           sudo apt-get -qq update
